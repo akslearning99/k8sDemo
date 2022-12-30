@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "QEmNZTJImkuF+iASDZXGsTiaSPozUFC8yeRZ/2dFmVq0Ml6VpiWXRMHyTKPhO+HlJHoyq5dvQYSDZgnINZBzxQ==",
+  "success": true,
+  "projectFilePath": "D:\\GithubCode\\k8sdemo\\k8s.client\\k8s.client.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lenovo\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.10.14\\microsoft.visualstudio.azure.containers.tools.targets.1.10.14.nupkg.sha512"
+  ],
+  "logs": []
+}
