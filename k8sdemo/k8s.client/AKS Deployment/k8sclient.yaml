@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8sclient-deployment
+  labels:
+    app: k8sclient
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8sclient
+  template:
+    metadata:
+      labels:
+        app: k8sclient
+    spec:
+      containers:
+        - name: k8sclient
+          image: k8sdemoacr.azurecr.io/k8sclient:v2
+          ports:
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Development
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "0.1"
+            limits:
+              memory: "128Mi"
+              cpu: "0.3"
+      imagePullSecrets:
+        - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8sclient-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: k8sclient
+  ports:
+    - protocol: TCP
+      port: 80

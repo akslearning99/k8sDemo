@@ -1,0 +1,29 @@
+-- Azure commands to create required resources
+az group create --name azurek8sdemo --location EastUS2
+az acr create --resource-group azurek8sdemo --name k8sdemoacr --sku Basic
+az acr update -n k8sdemoacr --admin-enabled true
+az acr login --name k8sdemoacr
+az aks create --resource-group azurek8sdemo --name k8sAKSCluster --node-count 1 --generate-ssh-keys --attach-acr k8sdemoacr
+
+-- Image pull secret...
+kubectl create secret docker-registry acr-secret --docker-server=k8sdemoacr.azurecr.io --docker-username=k8sdemoacr --docker-password=<<Password from ACR>> --docker-email=<<Your Azure email ID>>
+
+-- Tag image with specific version and push it in Azure container registry
+-- Few docker commands...
+docker images
+docker ps
+docker tag k8sclient:latest k8sdemoacr.azurecr.io/k8sclient:v1
+docker push k8sdemoacr.azurecr.io/k8sclient:v1
+
+-- Connect to AKS cluster
+az aks get-credentials --resource-group azurek8sdemo --name k8sAKSCluster
+kubectl get nodes
+kubectl get all
+
+-- deploy services...
+kubectl apply -f .\k8sdemo\
+
+-- delete all resources
+az group delete --name azurek8sdemo --yes --no-wait
+
+
